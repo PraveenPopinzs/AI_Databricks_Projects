@@ -55,11 +55,17 @@ ERP Sales_Projects/
 ### 1. Sales Analysis
 KPI cards, trend lines, YoY/MoM comparisons, MTD/QTD/YTD accumulators, weekday vs weekend split, and running total visuals.
 
+![Sales Analysis](screenshots/image4.png)
+
 ### 2. Product Analysis
 Category/subcategory breakdown, product ranking, margin analysis, active vs inactive product counts, and sales-per-product metrics.
 
+![Product Analysis](screenshots/image5.png)
+
 ### 3. Customer Analysis
 Customer segmentation by age bucket, gender, marital status, geography, repeat vs one-time buyers, LTV, and revenue-per-customer trends.
+
+![Customer Analysis](screenshots/image6.png)
 
 ---
 
