@@ -1,0 +1,32 @@
+table dim_securities
+	lineageTag: 70fc2e8d-92cf-41a4-ab65-319fef0b53bc
+
+	column user_email
+		dataType: string
+		lineageTag: da61653c-4921-4bd3-96c3-1e59d654ba3c
+		summarizeBy: none
+		sourceColumn: user_email
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 736a3b82-12c1-49c1-93ff-4c1c1a2f87cc
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_securities = m
+		mode: import
+		queryGroup: 02_Dimension
+		source =
+				let
+				    Source = dim_security
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

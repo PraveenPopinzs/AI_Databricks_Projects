@@ -1,0 +1,46 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 01_Support
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup 02_Dimension
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 03_Fact
+
+	annotation PBI_QueryGroupOrder = 2
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_date","dim_customer","dim_product","fact_sales","dim_dates","dim_customers","dim_products","fact_sale","dim_security","dim_securities","_Measures"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_c42566eb-fd8d-495e-a4df-cf12851a011d
+ref table dim_dates
+ref table LocalDateTable_bc7287cd-2a04-45b8-a16f-f5d99cdf561c
+ref table dim_customers
+ref table LocalDateTable_95a07c85-1332-412c-98a4-e8f673ec396f
+ref table LocalDateTable_ad631194-b012-4d0e-9e2d-595ccec4d0c9
+ref table LocalDateTable_c48d35d4-5d77-4161-b7db-7e39bb211586
+ref table LocalDateTable_890053cf-4d39-407b-94fc-4c2786af6f32
+ref table dim_products
+ref table LocalDateTable_f9d6261b-9a72-43e2-95e5-bd4ab0350d33
+ref table LocalDateTable_899bb4ba-0a3a-454e-a3f0-d8b182eeff28
+ref table fact_sale
+ref table dim_securities
+ref table _Measures
+
+ref role 'Dynamic RLS'
+
+ref cultureInfo en-US
+

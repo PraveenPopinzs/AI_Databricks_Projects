@@ -1,0 +1,151 @@
+table dim_dates
+	lineageTag: 0d4e01c0-65b8-43ca-a8de-e5b512807655
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d668b20-be34-4628-b1f9-ed27ef649b8c
+		summarizeBy: sum
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 8d33bdcd-e5c0-442c-a173-3d3be10433f9
+		summarizeBy: none
+		sourceColumn: full_date
+
+		variation Variation
+			isDefault
+			relationship: 67c8854e-8333-4935-9169-22a3d94d6409
+			defaultHierarchy: LocalDateTable_bc7287cd-2a04-45b8-a16f-f5d99cdf561c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: cce8d0a8-dd83-4bb6-9e9e-4fc3659e6306
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 427d0f88-cd3b-4fc3-90a8-92a8c1679589
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 667cfe49-0dd9-4301-ba14-76422b400c31
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = User
+
+	column month_name
+		dataType: string
+		lineageTag: 261e2959-a65f-4e60-9595-e2654baf1dd3
+		summarizeBy: none
+		sourceColumn: month_name
+		sortByColumn: month
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 1480cedb-712b-466f-b409-4f261eaee39a
+		summarizeBy: sum
+		sourceColumn: day_of_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 8e3946f4-d593-499c-94d3-d9dea285e714
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a2d1838-a95c-4df1-8f7b-a0cfe256588a
+		summarizeBy: sum
+		sourceColumn: day_of_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 3bff2946-bab1-450e-b171-ada52c8aee36
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_of_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 108fdadf-a8bf-4641-a976-e53dc21c417f
+		summarizeBy: sum
+		sourceColumn: week_of_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: b9a9f653-8548-4e2d-bc16-79b6214a32b9
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f1123f9b-0117-4439-bb16-1dee5c048edd
+		summarizeBy: none
+		sourceColumn: is_weekday
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d5faff79-a47f-4616-b2ea-07fab5f415ad
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_dates = m
+		mode: import
+		queryGroup: 02_Dimension
+		source =
+				let
+				    Source = dim_date
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

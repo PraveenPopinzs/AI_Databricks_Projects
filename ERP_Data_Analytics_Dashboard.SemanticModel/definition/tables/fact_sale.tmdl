@@ -1,0 +1,152 @@
+table fact_sale
+	lineageTag: 718f4f54-cb41-485a-a6a2-7ab81aa30e08
+
+	column fact_sales_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 6b15cc42-cf79-4c34-ac30-d64df5e3c4cc
+		summarizeBy: sum
+		sourceColumn: fact_sales_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 87a77795-14a9-448b-87f8-4d97f0fd5e18
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 940dd60f-ee5f-4a40-9bae-396952253a24
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: string
+		lineageTag: 57ee1b9e-a8a4-4cc9-9d97-f296b20fa966
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_number
+		dataType: string
+		lineageTag: 63863ab0-ba6c-4560-aaac-7e913fa305af
+		summarizeBy: none
+		sourceColumn: order_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 134e927e-607c-4937-94bf-a3e4bd337800
+		summarizeBy: none
+		sourceColumn: order_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column ship_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 56ac1f08-8a0a-4a9b-aa3f-42b624c6fd95
+		summarizeBy: none
+		sourceColumn: ship_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column due_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: bcea0a14-7d0e-438f-af77-cc66413b93b1
+		summarizeBy: none
+		sourceColumn: due_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column sales_amount
+		dataType: int64
+		formatString: 0
+		lineageTag: ccffa242-50b0-4350-aa58-de3a1a708986
+		summarizeBy: sum
+		sourceColumn: sales_amount
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: d1042359-eda6-499b-8947-0c75ab8d05f2
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column price
+		dataType: int64
+		formatString: 0
+		lineageTag: cd7cb124-e48d-4d47-9913-ba263c63cabe
+		summarizeBy: sum
+		sourceColumn: price
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: fc337a06-6550-4198-b080-d7ca5942dc8c
+		summarizeBy: sum
+		sourceColumn: order_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column ship_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d605c3f-af9c-43f7-aa6e-e0b39c2d3fda
+		summarizeBy: sum
+		sourceColumn: ship_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column due_date_key
+		dataType: int64
+		formatString: 0
+		lineageTag: f3b82d1a-cc34-4051-be53-f6fd27a71ba8
+		summarizeBy: sum
+		sourceColumn: due_date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sale = m
+		mode: import
+		queryGroup: 03_Fact
+		source =
+				let
+				    Source = fact_sales
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,83 @@
+expression dim_date =
+		let
+		    Source = DatabricksMultiCloud.Catalogs("dbc-592cf164-4e12.cloud.databricks.com", "/sql/1.0/warehouses/e7998a72e9d8adc5", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+		    workspace_Database = Source{[Name="workspace",Kind="Database"]}[Data],
+		    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+		    dim_date_Table = gold_Schema{[Name="dim_date",Kind="Table"]}[Data]
+		in
+		    dim_date_Table
+	lineageTag: 3212439a-7d8f-49ec-85fc-2b1f24fb40c3
+	queryGroup: 01_Support
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_customer =
+		let
+		    Source = DatabricksMultiCloud.Catalogs("dbc-592cf164-4e12.cloud.databricks.com", "/sql/1.0/warehouses/e7998a72e9d8adc5", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+		    workspace_Database = Source{[Name="workspace",Kind="Database"]}[Data],
+		    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+		    dim_customer_Table = gold_Schema{[Name="dim_customer",Kind="Table"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(dim_customer_Table, each [gender] <> null and [gender] <> "")
+		in
+		    #"Filtered Rows"
+	lineageTag: 65501489-3d4d-49f6-a410-aaa01d389704
+	queryGroup: 01_Support
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_product =
+		let
+		    Source = DatabricksMultiCloud.Catalogs("dbc-592cf164-4e12.cloud.databricks.com", "/sql/1.0/warehouses/e7998a72e9d8adc5", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+		    workspace_Database = Source{[Name="workspace",Kind="Database"]}[Data],
+		    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+		    dim_product_Table = gold_Schema{[Name="dim_product",Kind="Table"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(dim_product_Table, each [category] <> null and [category] <> "" and [subcategory] <> null and [subcategory] <> "")
+		in
+		    #"Filtered Rows"
+	lineageTag: 6147cc51-6cb9-4397-94a9-2b588c1953ef
+	queryGroup: 01_Support
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression fact_sales =
+		let
+		    Source = DatabricksMultiCloud.Catalogs("dbc-592cf164-4e12.cloud.databricks.com", "/sql/1.0/warehouses/e7998a72e9d8adc5", [Catalog=null, Database=null, QueryTags=null, EnableAutomaticProxyDiscovery=null, Implementation="2.0", Protocol=null]),
+		    workspace_Database = Source{[Name="workspace",Kind="Database"]}[Data],
+		    gold_Schema = workspace_Database{[Name="gold",Kind="Schema"]}[Data],
+		    fact_sales_Table = gold_Schema{[Name="fact_sales",Kind="Table"]}[Data],
+		    #"Filtered Rows" = Table.SelectRows(fact_sales_Table, each [order_date] <> null)
+		in
+		    #"Filtered Rows"
+	lineageTag: 0f519552-01a8-4dd8-bb47-2662068a1371
+	queryGroup: 01_Support
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression dim_security =
+		let
+		    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("Vc1BDoIwEEbhq5CuSc8gC3Zq3JPG/LQDjNCOmbbx+hpWdf2+5E2TqZn0SRF8mN4orSzJuH4ySRQWgY4LdIf1En/9Llq2boik7HGyDSnbD82krRuryptOsFN6sc0o0oIhM7oHPC/sTxaYVrGKKLl1VxROf0OJULtApe4tvHEIB3UjcjHOfQE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t, Column2 = _t]),
+		    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}, {"Column2", type text}}),
+		    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+		    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"user_email", type text}, {"region", type text}}),
+		    #"Replaced Value" = Table.ReplaceValue(#"Changed Type1","North America","United States",Replacer.ReplaceText,{"region"}),
+		    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","Europe","France",Replacer.ReplaceText,{"region"}),
+		    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","Asia Pacific","United Kingdom",Replacer.ReplaceText,{"region"}),
+		    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","Latin America","Germany",Replacer.ReplaceText,{"region"}),
+		    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","Middle East","Australia",Replacer.ReplaceText,{"region"})
+		in
+		    #"Replaced Value4"
+	lineageTag: ba2e8a70-3b2f-4edb-9fb4-f80a35a7810c
+	queryGroup: 01_Support
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

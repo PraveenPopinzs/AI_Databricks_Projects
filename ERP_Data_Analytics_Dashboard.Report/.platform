@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ERP_Data_Analytics_Dashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e3b1fb5b-3686-4791-963b-063e2f9d4beb"
+  }
+}

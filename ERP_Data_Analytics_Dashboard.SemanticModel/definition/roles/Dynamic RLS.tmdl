@@ -1,0 +1,21 @@
+role 'Dynamic RLS'
+	modelPermission: read
+
+	tablePermission dim_customers =
+			VAR CurrentEmail =
+			    LOWER(USERPRINCIPALNAME())
+			
+			VAR AllowedRegions =
+			    CALCULATETABLE(
+			        VALUES(dim_securities[Region]),
+			        FILTER(
+			            ALL(dim_securities),
+			            LOWER(dim_securities[user_email]) = CurrentEmail
+			        )
+			    )
+			
+			RETURN
+			    dim_customers[country] IN AllowedRegions
+
+	annotation PBI_Id = bb0bed5232c64e5c9826237d6204ef61
+

@@ -1,0 +1,243 @@
+table _Measures
+	lineageTag: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+
+	measure 'Total Sales' = SUM ( fact_sale[sales_amount] )
+		formatString: $#,##0
+		lineageTag: b1c2d3e4-f5a6-7890-bcde-f12345678901
+
+	measure 'Total Quantity' = SUM ( fact_sale[quantity] )
+		formatString: #,##0
+		lineageTag: c1d2e3f4-a5b6-7890-cdef-123456789012
+
+	measure 'Total Orders' = DISTINCTCOUNT ( fact_sale[order_number] )
+		formatString: #,##0
+		lineageTag: d1e2f3a4-b5c6-7890-def0-234567890123
+
+	measure 'Total Cost' =
+			SUMX (
+			    fact_sale,
+			    RELATED ( dim_products[cost] ) * fact_sale[quantity]
+			)
+		formatString: $#,##0
+		lineageTag: e1f2a3b4-c5d6-7890-ef01-345678901234
+
+	measure 'Gross Profit' = [Total Sales] - [Total Cost]
+		formatString: $#,##0
+		lineageTag: f1a2b3c4-d5e6-7890-f012-456789012345
+
+	measure 'Gross Profit Margin %' = DIVIDE ( [Gross Profit], [Total Sales], 0 )
+		formatString: 0.0%
+		lineageTag: a2b3c4d5-e6f7-8901-abcd-567890123456
+
+	measure 'Avg Order Value' = DIVIDE ( [Total Sales], [Total Orders], 0 )
+		formatString: $#,##0
+		lineageTag: b2c3d4e5-f6a7-8901-bcde-678901234567
+
+	measure 'Avg Selling Price' = DIVIDE ( [Total Sales], [Total Quantity], 0 )
+		formatString: $#,##0
+		lineageTag: c2d3e4f5-a6b7-8901-cdef-789012345678
+
+	measure 'Sales LY' =
+			CALCULATE (
+			    [Total Sales],
+			    SAMEPERIODLASTYEAR ( dim_dates[full_date] )
+			)
+		formatString: $#,##0
+		lineageTag: d2e3f4a5-b6c7-8901-def0-890123456789
+
+	measure 'Sales YoY %' = DIVIDE ( [Total Sales] - [Sales LY], [Sales LY], 0 )
+		formatString: 0.0%
+		lineageTag: e2f3a4b5-c6d7-8901-ef01-901234567890
+
+	measure 'Sales MTD' = TOTALMTD ([Total Sales],dim_dates[full_date])
+		formatString: $#,##0
+		lineageTag: f2a3b4c5-d6e7-8901-f012-012345678901
+
+	measure 'Sales QTD' = TOTALQTD ( [Total Sales], dim_dates[full_date] )
+		formatString: $#,##0
+		lineageTag: a3b4c5d6-e7f8-9012-abcd-123456789012
+
+	measure 'Sales YTD' = TOTALYTD ( [Total Sales], dim_dates[full_date] )
+		formatString: $#,##0
+		lineageTag: b3c4d5e6-f7a8-9012-bcde-234567890123
+
+	measure 'Sales YTD LY' =
+			CALCULATE (
+			    [Sales YTD],
+			    SAMEPERIODLASTYEAR ( dim_dates[full_date] )
+			)
+		formatString: $#,##0
+		lineageTag: c3d4e5f6-a7b8-9012-cdef-345678901234
+
+	measure 'Sales Running Total' =
+			CALCULATE (
+			    [Total Sales],
+			    FILTER (
+			        ALL ( dim_dates[full_date] ),
+			        dim_dates[full_date] <= MAX ( dim_dates[full_date] )
+			    )
+			)
+		formatString: $#,##0
+		lineageTag: d3e4f5a6-b7c8-9012-def0-456789012345
+
+	measure 'Sales by Ship Date' =
+			CALCULATE (
+			    [Total Sales],
+			    USERELATIONSHIP ( fact_sale[ship_date], dim_dates[full_date] )
+			)
+		formatString: $#,##0
+		lineageTag: e3f4a5b6-c7d8-9012-ef01-567890123456
+
+	measure 'Sales by Due Date' =
+			CALCULATE (
+			    [Total Sales],
+			    USERELATIONSHIP ( fact_sale[due_date], dim_dates[full_date] )
+			)
+		formatString: $#,##0
+		lineageTag: f3a4b5c6-d7e8-9012-f012-678901234567
+
+	measure 'Sales Weekday' = CALCULATE ( [Total Sales], dim_dates[is_weekday] = TRUE )
+		formatString: $#,##0
+		lineageTag: a4b5c6d7-e8f9-0123-abcd-789012345678
+
+	measure 'Sales Weekend' = CALCULATE ( [Total Sales], dim_dates[is_weekend] = TRUE )
+		formatString: $#,##0
+		lineageTag: b4c5d6e7-f8a9-0123-bcde-890123456789
+
+	measure 'Sales % of Total' =
+			DIVIDE (
+			    [Total Sales],
+			    CALCULATE ( [Total Sales], ALL ( dim_products ) ),
+			    0
+			)
+		formatString: 0.0%
+		lineageTag: c4d5e6f7-a8b9-0123-cdef-901234567890
+
+	measure 'Unit Margin' = AVERAGE ( fact_sale[price] ) - AVERAGE ( dim_products[cost] )
+		formatString: $#,##0
+		lineageTag: d4e5f6a7-b8c9-0123-def0-012345678901
+
+	measure 'Unit Margin %' = DIVIDE ( [Unit Margin], AVERAGE ( fact_sale[price] ), 0 )
+		formatString: 0.0%
+		lineageTag: e4f5a6b7-c8d9-0123-ef01-123456789012
+
+	measure 'Category Rank' = RANKX ( ALL ( dim_products[category] ), [Total Sales], , DESC, DENSE )
+		lineageTag: f4a5b6c7-d8e9-0123-f012-234567890123
+
+	measure 'Product Count' = DISTINCTCOUNT ( dim_products[product_id] )
+		formatString: #,##0
+		lineageTag: a5b6c7d8-e9f0-1234-abcd-345678901234
+
+	measure 'Active Product Count' =
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_products[product_id] ),
+			    dim_products[is_active] = TRUE
+			)
+		formatString: #,##0
+		lineageTag: b5c6d7e8-f9a0-1234-bcde-456789012345
+
+	measure 'Products Sold' = DISTINCTCOUNT ( fact_sale[product_id] )
+		formatString: #,##0
+		lineageTag: c5d6e7f8-a9b0-1234-cdef-567890123456
+
+	measure 'Sales per Product' = DIVIDE ( [Total Sales], DISTINCTCOUNT ( fact_sale[product_id] ), 0 )
+		formatString: $#,##0
+		lineageTag: d5e6f7a8-b9c0-1234-def0-678901234567
+
+	measure 'Total Customers' = DISTINCTCOUNT ( fact_sale[customer_id] )
+		formatString: #,##0
+		lineageTag: e5f6a7b8-c9d0-1234-ef01-789012345678
+
+	measure 'Active Customers' =
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_customers[customer_id] ),
+			    dim_customers[is_current] = TRUE
+			)
+		formatString: #,##0
+		lineageTag: f5a6b7c8-d9e0-1234-f012-890123456789
+
+	measure 'New Customers' =
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_customers[customer_id] ),
+			    FILTER (
+			        dim_customers,
+			        YEAR ( dim_customers[create_date] ) = YEAR ( MAX ( dim_dates[full_date] ) )
+			    )
+			)
+		formatString: #,##0
+		lineageTag: a6b7c8d9-e0f1-2345-abcd-901234567890
+
+	measure 'Revenue per Customer' = DIVIDE ( [Total Sales], [Total Customers], 0 )
+		formatString: $#,##0
+		lineageTag: b6c7d8e9-f0a1-2345-bcde-012345678901
+
+	measure 'Orders per Customer' = DIVIDE ( [Total Orders], [Total Customers], 0 )
+		formatString: #,##0.0
+		lineageTag: c6d7e8f9-a0b1-2345-cdef-123456789012
+
+	measure 'Customer Rank' = RANKX ( ALL ( dim_customers[full_name] ), [Total Sales], , DESC, DENSE )
+		lineageTag: d6e7f8a9-b0c1-2345-def0-234567890123
+
+	measure 'Customer LTV' = DIVIDE ( [Total Sales], [Active Customers], 0 )
+		formatString: $#,##0
+		lineageTag: e6f7a8b9-c0d1-2345-ef01-345678901234
+
+	measure 'Repeat Customers' =
+			COUNTROWS (
+			    FILTER (
+			        SUMMARIZE ( fact_sale, fact_sale[customer_id], "OrderCount", DISTINCTCOUNT ( fact_sale[order_number] ) ),
+			        [OrderCount] > 1
+			    )
+			)
+		formatString: #,##0
+		lineageTag: f6a7b8c9-d0e1-2345-f012-456789012345
+
+	measure 'One Time Customers' = [Total Customers] - [Repeat Customers]
+		formatString: #,##0
+		lineageTag: a7b8c9d0-e1f2-3456-abcd-567890123456
+
+	measure 'Repeat Customer %' = DIVIDE ( [Repeat Customers], [Total Customers], 0 )
+		formatString: 0.0%
+		lineageTag: b7c8d9e0-f1a2-3456-bcde-678901234567
+
+	measure 'Sales Male' = CALCULATE ( [Total Sales], dim_customers[gender] = "M" )
+		formatString: $#,##0
+		lineageTag: c7d8e9f0-a1b2-3456-cdef-789012345678
+
+	measure 'Sales Female' = CALCULATE ( [Total Sales], dim_customers[gender] = "F" )
+		formatString: $#,##0
+		lineageTag: d7e8f9a0-b1c2-3456-def0-890123456789
+
+	measure 'Sales Married' = CALCULATE ( [Total Sales], dim_customers[marital_status] = "M" )
+		formatString: $#,##0
+		lineageTag: e7f8a9b0-c1d2-3456-ef01-901234567890
+
+	measure 'Sales Single' = CALCULATE ( [Total Sales], dim_customers[marital_status] = "S" )
+		formatString: $#,##0
+		lineageTag: f7a8b9c0-d1e2-3456-f012-012345678901
+
+	measure 'Sales LM' =
+			CALCULATE(
+			         [Total Sales],
+			         PREVIOUSMONTH(dim_dates[full_date])
+			)
+		formatString: 0
+		lineageTag: f814426c-8343-44dc-bce3-3388eb23d828
+
+	measure 'Sales MoM %' = DIVIDE([Total Sales]-[Sales LM],[Sales LM],0)
+		lineageTag: 77eb6401-1587-4b25-a5be-2d26f23e181e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition _Measures = m
+		mode: import
+		source =
+				let
+				    Source = #table({"Column1"}, {{""}})
+				in
+				    Source
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

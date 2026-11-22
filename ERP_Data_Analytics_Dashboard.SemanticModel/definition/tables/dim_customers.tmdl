@@ -1,0 +1,185 @@
+table dim_customers
+	lineageTag: e2d8a146-e03b-4b04-b042-2b8aac877304
+
+	column customer_sk
+		dataType: int64
+		formatString: 0
+		lineageTag: 8be893ca-26f8-42b8-bbc5-ad20586493ff
+		summarizeBy: sum
+		sourceColumn: customer_sk
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 068a37ee-6964-4556-8463-bce367d8bf4d
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: string
+		lineageTag: b27a38e8-1a4d-4fd4-ba07-e8aa9420b795
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column first_name
+		dataType: string
+		lineageTag: 9c645536-7779-4428-88d3-729577643fc7
+		summarizeBy: none
+		sourceColumn: first_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_name
+		dataType: string
+		lineageTag: 45027f7d-3b20-4ba1-91db-91bb487f21d0
+		summarizeBy: none
+		sourceColumn: last_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_name
+		dataType: string
+		lineageTag: 76c51ef8-979e-4a09-bbfd-e60a121d2524
+		summarizeBy: none
+		sourceColumn: full_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column birth_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 7351182b-18f5-45bd-b7a7-1581510570c5
+		summarizeBy: none
+		sourceColumn: birth_date
+
+		variation Variation
+			isDefault
+			relationship: c634240a-c20a-4e98-ab98-fc99de653726
+			defaultHierarchy: LocalDateTable_95a07c85-1332-412c-98a4-e8f673ec396f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column gender
+		dataType: string
+		lineageTag: ea9b56a9-1acf-4251-8e55-c5a583b1d931
+		summarizeBy: none
+		sourceColumn: gender
+
+		annotation SummarizationSetBy = Automatic
+
+	column marital_status
+		dataType: string
+		lineageTag: 1e9a8715-c4d2-4a51-adce-ca5c695028f2
+		summarizeBy: none
+		sourceColumn: marital_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 47442e9f-7338-447c-9d6c-05cadb344d71
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column create_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d24398e8-efaf-417c-ad32-1e8f6d7bae03
+		summarizeBy: none
+		sourceColumn: create_date
+
+		variation Variation
+			isDefault
+			relationship: d6923b1f-34af-4928-9b32-69ef1971fe79
+			defaultHierarchy: LocalDateTable_ad631194-b012-4d0e-9e2d-595ccec4d0c9.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 34014308-2641-4c73-860d-744659e23570
+		summarizeBy: none
+		sourceColumn: start_date
+
+		variation Variation
+			isDefault
+			relationship: 64e2207e-a925-4a27-ba60-deefa96a8a4d
+			defaultHierarchy: LocalDateTable_c48d35d4-5d77-4161-b7db-7e39bb211586.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 43c64170-e816-496b-ae2b-af72e41ed7ad
+		summarizeBy: none
+		sourceColumn: end_date
+
+		variation Variation
+			isDefault
+			relationship: 03bdc59b-ae0d-4176-8b19-70d1d386ae6c
+			defaultHierarchy: LocalDateTable_890053cf-4d39-407b-94fc-4c2786af6f32.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_current
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: db173a54-7249-457f-bad7-daa4e40d3cee
+		summarizeBy: none
+		sourceColumn: is_current
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Age Bucket' =
+			VAR Age =
+			    DATEDIFF ( dim_customers[birth_date], TODAY (), YEAR )
+			RETURN
+			    IF (
+			        ISBLANK ( dim_customers[birth_date] ),
+			        "Unknown",
+			        SWITCH (
+			            TRUE (),
+			            Age < 25, "Under 25",
+			            Age < 35, "25-34",
+			            Age < 45, "35-44",
+			            Age < 55, "45-54",
+			            "55+"
+			        )
+			    )
+		dataType: string
+		lineageTag: 1ca2a6c5-de2e-4a38-bb5c-bee1a3ad9e0f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customers = m
+		mode: import
+		queryGroup: 02_Dimension
+		source =
+				let
+				    Source = dim_customer
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

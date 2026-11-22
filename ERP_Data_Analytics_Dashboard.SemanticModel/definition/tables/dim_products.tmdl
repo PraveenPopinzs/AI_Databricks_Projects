@@ -1,0 +1,131 @@
+table dim_products
+	lineageTag: a29d6d5a-5351-4519-b6cd-500005bc25ac
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 5d470b2e-3201-4480-91bf-8b6c416e363c
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: string
+		lineageTag: 07600005-95b8-400b-aca3-b320493cc18f
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column Category_key
+		dataType: string
+		lineageTag: f6bcb681-356b-4862-9c79-7dcb5bc920e4
+		summarizeBy: none
+		sourceColumn: Category_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: 5ee2170a-6f9d-4dd2-8a6e-2ed196bc04ec
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column cost
+		dataType: int64
+		formatString: 0
+		lineageTag: a5fc3442-49ad-4d6a-8a75-18661fa9ae08
+		summarizeBy: sum
+		sourceColumn: cost
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_line
+		dataType: string
+		lineageTag: 0d0b1044-0233-4375-be15-2795e5fe0695
+		summarizeBy: none
+		sourceColumn: product_line
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8a93b088-21d4-40ef-9aba-c611a0e791b0
+		summarizeBy: none
+		sourceColumn: start_date
+
+		variation Variation
+			isDefault
+			relationship: 2ded9dec-19ed-4e2e-994e-3c4523a760ff
+			defaultHierarchy: LocalDateTable_f9d6261b-9a72-43e2-95e5-bd4ab0350d33.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4a58d5e6-e821-4d89-9c81-8411a050d128
+		summarizeBy: none
+		sourceColumn: end_date
+
+		variation Variation
+			isDefault
+			relationship: ee91df63-5ffc-4c97-9580-90d03917b2a3
+			defaultHierarchy: LocalDateTable_899bb4ba-0a3a-454e-a3f0-d8b182eeff28.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 5af93f28-98f7-482b-a35c-b33715cba31d
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: 7cd98370-61c1-410a-b9e0-3d004997f0d3
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column subcategory
+		dataType: string
+		lineageTag: a8865bd8-8276-4a2f-b3b6-2c4043997b94
+		summarizeBy: none
+		sourceColumn: subcategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column maintenance_required
+		dataType: string
+		lineageTag: eaad7ff2-9b64-4e35-8465-61a15dd57ed0
+		summarizeBy: none
+		sourceColumn: maintenance_required
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_products = m
+		mode: import
+		queryGroup: 02_Dimension
+		source =
+				let
+				    Source = dim_product
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

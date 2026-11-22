@@ -1,0 +1,61 @@
+relationship 67c8854e-8333-4935-9169-22a3d94d6409
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_dates.full_date
+	toColumn: LocalDateTable_bc7287cd-2a04-45b8-a16f-f5d99cdf561c.Date
+
+relationship c634240a-c20a-4e98-ab98-fc99de653726
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.birth_date
+	toColumn: LocalDateTable_95a07c85-1332-412c-98a4-e8f673ec396f.Date
+
+relationship d6923b1f-34af-4928-9b32-69ef1971fe79
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.create_date
+	toColumn: LocalDateTable_ad631194-b012-4d0e-9e2d-595ccec4d0c9.Date
+
+relationship 64e2207e-a925-4a27-ba60-deefa96a8a4d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.start_date
+	toColumn: LocalDateTable_c48d35d4-5d77-4161-b7db-7e39bb211586.Date
+
+relationship 03bdc59b-ae0d-4176-8b19-70d1d386ae6c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customers.end_date
+	toColumn: LocalDateTable_890053cf-4d39-407b-94fc-4c2786af6f32.Date
+
+relationship 2ded9dec-19ed-4e2e-994e-3c4523a760ff
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_products.start_date
+	toColumn: LocalDateTable_f9d6261b-9a72-43e2-95e5-bd4ab0350d33.Date
+
+relationship ee91df63-5ffc-4c97-9580-90d03917b2a3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_products.end_date
+	toColumn: LocalDateTable_899bb4ba-0a3a-454e-a3f0-d8b182eeff28.Date
+
+relationship AutoDetected_06ffa7c6-179c-46d3-95ab-3ed5656d594f
+	fromColumn: fact_sale.customer_id
+	toColumn: dim_customers.customer_id
+
+relationship AutoDetected_63b3e31e-cd04-46b4-83e9-b5d73d05a6c3
+	fromColumn: fact_sale.product_id
+	toColumn: dim_products.product_id
+
+relationship 5a290709-0475-94d8-aab7-1fd168aebe01
+	fromColumn: fact_sale.order_date
+	toColumn: dim_dates.full_date
+
+relationship 1a33e5a8-fccd-c9ba-7ee1-99da5e3e511f
+	isActive: false
+	fromColumn: fact_sale.due_date
+	toColumn: dim_dates.full_date
+
+relationship b4cfa20f-8325-6f00-9c9e-273cce98636b
+	isActive: false
+	fromColumn: fact_sale.ship_date
+	toColumn: dim_dates.full_date
+
+relationship 372b3cdc-2b5a-049a-78be-e9942bcb745d
+	fromColumn: dim_customers.country
+	toColumn: dim_securities.region
+
